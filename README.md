@@ -4,13 +4,21 @@
 **Version**: 1.0.0 (increment the patch/fix version number if you make more commits past your first submission)
 
 ## Overview
-<!-- Provide a high level overview of what this application is and why you are building it, beyond the fact that it's an assignment for this class. (i.e. What's your problem domain?) -->
+
+As a user, you will be able to input a city name and have its exact location, including its location within a country, its latitude and longitude showup. Also, it will show a map that is zoomed in so you can decide where you want to explore. If you input an incorrect city, you will be able to see on the page the error that is displayed.
 
 ## Getting Started
-<!-- What are the steps that a user must take in order to build this app on their own machine and get it running? -->
+
+- Step 1 - create your react file using the command npx create-react-app 'name of your app'
+- Step 2 - create an account on the location IQ site and get a key
+- Step 3 - create a .env file with the correct variable name and set it equal to your key, also add the .env to gitignore as it is sensitive information
+- Step 4- create the necessary components and use the key HTTP verb "get" in a try-catch statement to retrieve data from the API -Step 5 use the react-bootstrap documentation to bring over the components you require
 
 ## Architecture
-<!-- Provide a detailed description of the application design. What technologies (languages, libraries, etc) you're using, and any other relevant design information. -->
+
+- I used class based inheritance in REACT, NODE JS, JS, CSS, BOOTSTRAP
+
+- I used the basic form on bootstrap to create the necessary architecture
 
 ## Change Log
 <!-- Use this area to document the iterative changes made to your application as each feature is successfully implemented. Use time stamps. Here's an example:
@@ -22,12 +30,12 @@
 Time Estimates
 For each of the lab features, make an estimate of the time it will take you to complete the feature, and record your start and finish times for that feature:
 
-Name of feature: ________________________________
+Name of feature: input city name and retrieve the necessary data (map, latitude, and longitude along with error message )______________________________
 
-Estimate of time needed to complete: _____
+Estimate of time needed to complete: _4 hours____
 
-Start time: _____
+Start time: 730pm_____
 
-Finish time: _____
+Finish time: 11:30pm___
 
-Actual time needed to complete: _____
+Actual time needed to complete: 4 hours and half (half an hour troubleshooting location issue with TA)
