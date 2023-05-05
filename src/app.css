@@ -1,0 +1,27 @@
+body {
+    background-color:lightblue;
+
+}
+
+label.form-label {
+   margin-left: 3px;
+   font-size: 18px;
+   
+   
+}
+input.form-control {
+    margin-bottom: 10px;
+    margin-left: 5px;
+    height: 25px;
+    width: 200px;
+    
+}
+
+button {
+    font-size: 18px;
+    font-family: 'Times New Roman', Times, serif;
+    background-color:brown;
+    font-weight: bold;
+}
+
+
