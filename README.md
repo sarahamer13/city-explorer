@@ -39,3 +39,8 @@ Start time: 730pm_____
 Finish time: 11:30pm___
 
 Actual time needed to complete: 4 hours and half (half an hour troubleshooting location issue with TA)
+
+## Process
+
+![Whiteboard process](./public/Whiteboard.png)
+
