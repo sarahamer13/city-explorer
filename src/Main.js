@@ -4,6 +4,7 @@ import Map from "./Map";
 import axios from "axios";
 import "./app.css";
 import Weather from "./Weather";
+import Movies from "./Movies"
 
 class Main extends React.Component {
   constructor(props) {
@@ -15,6 +16,9 @@ class Main extends React.Component {
       errorMessage: "",
       displayError: false,
       weatherData: [],
+      movieData: [],
+      lat: '',
+      lon: ''
     };
   }
 
@@ -30,6 +34,8 @@ class Main extends React.Component {
       console.log(response.data[0]);
       this.setState({ location: response.data[0], displayError: false, errorMessage: "" }, () => {
         this.DisplayWeather();
+        this.DisplayMovies();
+      
       });
     } catch (error) {
       console.log("error.message", error.response.data.error);
@@ -42,16 +48,39 @@ class Main extends React.Component {
   };
 
   DisplayWeather = async () => {
+    console.log("DisplayMovies called"); 
     console.log('Server URL:', process.env.REACT_APP_SERVER);
-    const weatherUrl = `${process.env.REACT_APP_SERVER}/weatherData?searchQuery=${this.state.searchQuery}`;
+    const lat = this.state.location.lat;
+    const lon = this.state.location.lon;
+    const weatherUrl = `${process.env.REACT_APP_SERVER}/weatherData?lat=${lat}&lon=${lon}`;
+   
     try {
       const response = await axios.get(weatherUrl);
       this.setState({ weatherData: response.data });
+
+    //   // Find city
+    // const cityData = weatherData.find(weather => weather.city_name.toLowerCase() === searchQuery.toLowerCase());
+    //  console.log(cityData);
     } catch (error) {
       console.log("Error fetching weather data:", error);
       console.log('Error response:', error.response);
       console.log('Error request:', error.request);
 
+    }
+  };
+
+  DisplayMovies = async () => {
+    const movieUrl = `${process.env.REACT_APP_SERVER}/movies?citySearch=${this.state.searchQuery}`;
+  
+    // console.log("Movie API URL:", movieUrl); 
+    try {
+      const response = await axios.get(movieUrl);
+      console.log("Movie data:", response.data); 
+      this.setState({ movieData: response.data });
+    } catch (error) {
+      console.log("Error fetching movie data:", error);
+      console.log('Error response:', error.response);
+      console.log('Error request:', error.request);
     }
   };
 
@@ -73,14 +102,24 @@ class Main extends React.Component {
             <p>Lon: {this.state.location.lon}</p>
             <img src={this.state.cityMap} alt="" />
             <Map lat={this.state.location.lat} lon={this.state.location.lon}></Map>
-            {this.state.weatherData.length > 0 && (
-            <Weather weatherData={this.state.weatherData} />
-            )}
+            
+            <div>
+              {this.state.weatherData.length > 0 && 
+                <Weather weatherData={this.state.weatherData} />
+              }
+            </div>
+  
+            <div>
+              {this.state.movieData.length > 0 &&
+              
+                this.state.movieData.map((movie, index) => (
+                  <Movies key={index} movie={movie} />
+                ))}
+            </div>
           </>
         )}
       </Container>
     );
   }
 }
-
 export default Main;
