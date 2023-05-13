@@ -17,8 +17,8 @@ class Main extends React.Component {
       displayError: false,
       weatherData: [],
       movieData: [],
-      lat: '',
-      lon: ''
+      city :'',
+    
     };
   }
 
@@ -28,39 +28,38 @@ class Main extends React.Component {
 
   handleExplorer = async (e) => {
     e.preventDefault();
-    try {
-      const API = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
-      const response = await axios.get(API);
-      console.log(response.data[0]);
-      this.setState({ location: response.data[0], displayError: false, errorMessage: "" }, () => {
-        this.DisplayWeather();
-        this.DisplayMovies();
-      
-      });
-    } catch (error) {
-      console.log("error.message", error.response.data.error);
-      this.setState({
-        errorMessage: error.response.status + ": " + error.response.data.error,
-        location: {},
-        displayError: true,
-      });
-    }
+    this.setState({ city: this.state.searchQuery }, async () => {
+      try {
+        const API = `https://us1.locationiq.com/v1/search.php?key=${process.env.REACT_APP_LOCATIONIQ_KEY}&q=${this.state.searchQuery}&format=json`;
+        const response = await axios.get(API);
+        console.log(response.data[0]);
+        this.setState({ location: response.data[0], displayError: false, errorMessage: "" }, () => {
+          this.DisplayWeather();
+          this.DisplayMovies();
+        });
+      } catch (error) {
+        console.log("error.message", error.response.data.error);
+        this.setState({
+          errorMessage: error.response.status + ": " + error.response.data.error,
+          location: {},
+          displayError: true,
+        });
+      }
+    });
   };
+  
 
   DisplayWeather = async () => {
     console.log("DisplayMovies called"); 
     console.log('Server URL:', process.env.REACT_APP_SERVER);
-    const lat = this.state.location.lat;
-    const lon = this.state.location.lon;
-    const weatherUrl = `${process.env.REACT_APP_SERVER}/weatherData?lat=${lat}&lon=${lon}`;
+    // const lat = this.state.location.lat;
+    // const lon = this.state.location.lon;
+    const weatherUrl = `${process.env.REACT_APP_SERVER}/weather?searchQuery=${this.state.city}`;
    
     try {
       const response = await axios.get(weatherUrl);
       this.setState({ weatherData: response.data });
 
-    //   // Find city
-    // const cityData = weatherData.find(weather => weather.city_name.toLowerCase() === searchQuery.toLowerCase());
-    //  console.log(cityData);
     } catch (error) {
       console.log("Error fetching weather data:", error);
       console.log('Error response:', error.response);
@@ -70,12 +69,10 @@ class Main extends React.Component {
   };
 
   DisplayMovies = async () => {
-    const movieUrl = `${process.env.REACT_APP_SERVER}/movies?citySearch=${this.state.searchQuery}`;
+    const movieUrl = `${process.env.REACT_APP_SERVER}/movies?citySearch=${this.state.city}`;
   
-    // console.log("Movie API URL:", movieUrl); 
     try {
       const response = await axios.get(movieUrl);
-      console.log("Movie data:", response.data); 
       this.setState({ movieData: response.data });
     } catch (error) {
       console.log("Error fetching movie data:", error);
